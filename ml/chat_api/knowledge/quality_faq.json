@@ -1,0 +1,50 @@
+{
+  "version": "1.1",
+  "domain": "olive_oil_quality_tunisia",
+  "disclaimer_fr": "Important: une photo ne peut pas prouver la qualité chimique (acidité réelle, polyphénols, absence de mélange). Je peux évaluer l’étiquette, l’emballage et donner des conseils.",
+  "rules_fr": [
+    "Une bonne huile est souvent 'extra vierge' (mais il faut aussi traçabilité et fraîcheur).",
+    "Privilégier bouteille en verre sombre ou bidon métallique alimentaire; éviter plastique transparent pour stockage long.",
+    "Chercher: origine/region, numéro de lot, date de récolte ou mise en bouteille, coordonnées producteur/conditionneur.",
+    "La fraîcheur compte: récolte récente, bonne conservation (à l’abri de la lumière/chaleur).",
+    "Pour confirmer: demander analyse (acidité, peroxyde, K232/K270 si dispo) ou certificat/fiche labo."
+  ],
+  "faq_fr": [
+    {
+      "id": "buy_or_wait_quality",
+      "tags": ["acheter", "éviter", "conseil", "qualité", "recommandation", "vendeur"],
+      "q": "Comment décider d’acheter ou éviter ?",
+      "a": "Si l’étiquette est complète (extra vierge, lot, date, origine) et l’emballage protège bien, tu peux acheter. Si des infos clés manquent, demande au vendeur (date récolte, analyse). Si c’est plastique transparent + aucune traçabilité, mieux vaut éviter."
+    },
+    {
+      "id": "storage",
+      "tags": ["conserver", "conservation", "lumière", "chaleur", "stockage"],
+      "q": "Comment conserver l’huile d’olive ?",
+      "a": "Garde-la à l’abri de la lumière et de la chaleur, bien fermée. Évite la fenêtre/la cuisine chaude. Une petite bouteille pour l’usage quotidien, et le reste stocké au frais et sombre."
+    },
+    {
+      "id": "extra_vierge_definition",
+      "tags": ["extra vierge", "extra-vierge", "vierge", "definition", "qualité"],
+      "q": "C’est quoi une huile d’olive extra vierge ?",
+      "a": "Extra vierge est la catégorie la plus élevée: extraction mécanique, sans défauts sensoriels, et des critères chimiques stricts. Sur l’étiquette, c’est un bon signe, mais il faut aussi vérifier fraîcheur, lot, origine et conservation."
+    },
+    {
+      "id": "acidity",
+      "tags": ["acidité", "acide", "0.8", "qualité", "analyse"],
+      "q": "L’acidité veut dire quoi ?",
+      "a": "L’acidité (souvent exprimée en % acide oléique) est un indicateur chimique: plus c’est bas, mieux c’est en général. Mais seule une analyse fiable peut le confirmer; l’étiquette ne l’indique pas toujours."
+    },
+    {
+      "id": "packaging",
+      "tags": ["bouteille", "verre", "plastique", "bidon", "emballage", "lumière"],
+      "q": "Quel emballage est le meilleur ?",
+      "a": "Le verre sombre ou le métal protègent mieux de la lumière et de l’oxydation. Le plastique transparent peut accélérer la dégradation si l’huile est exposée à la lumière/chaleur."
+    },
+    {
+      "id": "harvest_date",
+      "tags": ["récolte", "date", "mise en bouteille", "fraîcheur", "2024", "2025"],
+      "q": "Pourquoi la date de récolte est importante ?",
+      "a": "La fraîcheur influence l’arôme et la stabilité. Une huile très ancienne perd en qualité. Si la date n’apparaît pas, demande la campagne de récolte et la date de mise en bouteille."
+    }
+  ]
+}
