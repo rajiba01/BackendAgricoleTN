@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1a3630e1-4c12-4853-a1e8-15a047e89410" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/ml/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/chat_api/knowledge/quality_faq.json" beforeDir="false" afterPath="$PROJECT_DIR$/ml/chat_api/knowledge/quality_faq.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/chat_api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml/chat_api/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/Controller/CommandeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/Controller/CommandeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/Controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/application/RestApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/application/RestApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/config/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/config/CorsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/connection/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/connection/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/economic/system/repository/CommandeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/economic/system/repository/CommandeRepository.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;waelbenrejiba&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/waelbenrejiba/ProjectJavaIA.git&quot;,
+    &quot;accountId&quot;: &quot;5fe936de-7650-4cb0-abde-4447859d234c&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="36wKtKSFjuDPnjI0j3s6aHmWmUO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MergeOliveXlsxToCsv.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.AI_Powered_TunisianEconomic_Intelligence_System [jetty:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/MSI/IdeaProjects/AI_Powered_TunisianEconomic_Intelligence_System/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.44367817&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\MSI\IdeaProjects\AI_Powered_TunisianEconomic_Intelligence_System\src\main\resources\olive_oil" />
+      <recent name="C:\Users\MSI\IdeaProjects\AI_Powered_TunisianEconomic_Intelligence_System\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tn.economic.system.application.Main" />
+      <module name="AI_Powered_TunisianEconomic_Intelligence_System" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.economic.system.application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MergeOliveXlsxToCsv" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tn.economic.system.ai.MergeOliveXlsxToCsv" />
+      <module name="AI_Powered_TunisianEconomic_Intelligence_System" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.economic.system.ai.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AI_Powered_TunisianEconomic_Intelligence_System [jetty:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="jetty:run" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MergeOliveXlsxToCsv" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a3630e1-4c12-4853-a1e8-15a047e89410" name="Changes" comment="" />
+      <created>1765912408057</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765912408057</updated>
+    </task>
+    <servers />
+  </component>
+</project>
