@@ -251,6 +251,7 @@ public class CommandeRepository {
       WHERE c.FOURNISSEUR_USER_ID = ?
       ORDER BY c.CREATED_AT DESC
     """;
+    
 
   List<CommandeView> commandes = new java.util.ArrayList<>();
     try (Connection c = DBConnection.getConnection();
@@ -281,4 +282,44 @@ public class CommandeRepository {
     } catch (SQLException e) {
       throw new DataAccessException("Erreur list commandes fournisseur", e);
     }
-}}
+
+  }
+  public static class TopProduct {
+    public String produitType;
+    public int nbCommandes;
+
+    public TopProduct(String produitType, int nbCommandes) {
+        this.produitType = produitType;
+        this.nbCommandes = nbCommandes;
+    }
+}
+public List<TopProduct> getTopProducts(int limit) {
+    String sql = "SELECT p.TYPE, COUNT(c.PRODUIT_ID) AS nb_commandes\r\n" + //
+            "FROM commande c\r\n" + //
+            "JOIN produit p ON c.PRODUIT_ID = p.IDPRODUIT\r\n" + //
+            "GROUP BY p.TYPE\r\n" + //
+            "ORDER BY nb_commandes DESC\r\n" + //
+            "FETCH FIRST ? ROWS ONLY\r\n" + //
+            "";
+    List<TopProduct> topProducts = new java.util.ArrayList<>();
+    try (Connection c = DBConnection.getConnection();
+         PreparedStatement ps = c.prepareStatement(sql)) {
+
+        ps.setInt(1, limit);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+              String produitType = rs.getString("TYPE"); // colonne SQL s'appelle TYPE
+int nbCommandes = rs.getInt("nb_commandes");
+topProducts.add(new TopProduct(produitType, nbCommandes));
+
+            }
+        }
+
+        return topProducts;
+
+    } catch (SQLException e) {
+        throw new DataAccessException("Erreur top produits", e);
+    }
+}
+}

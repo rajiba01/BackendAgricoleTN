@@ -7,6 +7,8 @@ import tn.economic.system.ModelException.DataAccessException;
 import tn.economic.system.dto.CreateCommandeRequest;
 import tn.economic.system.dto.AchatReceipt;
 import tn.economic.system.repository.CommandeRepository;
+import tn.economic.system.repository.CommandeRepository.TopProduct;
+import java.util.List;
 
 @Path("/commandes")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -32,4 +34,10 @@ public class CommandeController {
       return Response.serverError().entity("Erreur création commande").build();
     }
   }
+@GET
+  @Path("/top-products")
+
+public List<TopProduct> topProducts(@QueryParam("limit") @DefaultValue("5") int limit) {
+    return repo.getTopProducts(limit);
+}
 }

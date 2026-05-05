@@ -18,14 +18,5 @@ public class UserController  {
         userService.createUser(dto);
         return Response.status(Response.Status.CREATED).build();
     }
-    @OPTIONS
-    public Response cors() {
-        // Permet à Angular de passer les requêtes
-        return Response.ok()
-                .header("Access-Control-Allow-Origin", "http://localhost:4200")
-                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-                .header("Access-Control-Allow-Headers", "Content-Type")
-                .build();
-    }
 
 }

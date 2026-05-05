@@ -1,4 +1,6 @@
+
 from __future__ import annotations
+
 import datetime as _dt
 import os
 import re
@@ -17,6 +19,7 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 import cv2
 import numpy as np
+from learning.sell_advice import get_sell_advice
 ML_API_BASE = os.getenv("ML_API_BASE", "http://127.0.0.1:8000")
 OLLAMA_BASE = os.getenv("OLLAMA_BASE", "http://127.0.0.1:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:7b-instruct")
@@ -52,9 +55,11 @@ class ImageAnalysisResponse(BaseModel):
 
 app = FastAPI(title="Chat API", version="1.0")
 
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_origins=["http://localhost:4200"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -185,6 +190,7 @@ def build_system_prompt(lang: Literal["fr", "ar", "en", "tn"]) -> str:
             "Tu expliques en 3-6 phrases maximum. "
             "Tu donnes une recommandation finale: Acheter maintenant / Attendre / Surveiller. "
             "N'invente jamais des chiffres: utilise uniquement les valeurs fournies."
+            "Ajoute aussi une recommandation personnalisée pour un fournisseur si cette information est fournie."
         )
     if lang == "en":
         return (
@@ -192,6 +198,7 @@ def build_system_prompt(lang: Literal["fr", "ar", "en", "tn"]) -> str:
             "Be concise, honest, and conversion-oriented. "
             "Give a final recommendation: Buy now / Wait / Monitor. "
             "Never invent numbers; use only the provided values."
+            "Also provide a personalized recommendation for a supplier if that information is given."
         )
     # ar/tn
     return (
@@ -199,6 +206,7 @@ def build_system_prompt(lang: Literal["fr", "ar", "en", "tn"]) -> str:
         "كن واضحًا ومختصرًا وصادقًا. "
         "أعطِ توصية نهائية: اشري توّا / استنّى / راقب. "
         "لا تخترع أرقامًا: استعمل فقط الأرقام المعطاة."
+        "أضف أيضًا توصية مخصصة لمورد إذا تم توفير هذه المعلومة."
     )
 
 
@@ -209,6 +217,7 @@ def format_user_prompt(lang: str, region: str, horizon: int, current_price: floa
     advice_label = ml.get("advice_label")
     mean7 = ml.get("dataset_baseline_mean7")
     asof_stats = ml.get("asof_date_stats")
+    fournisseur = ml.get("fournisseur")
 
     if lang == "en":
         return (
@@ -247,40 +256,50 @@ def format_user_prompt(lang: str, region: str, horizon: int, current_price: floa
 @app.get("/health")
 def health():
     return {"status": "ok", "ollama_model": OLLAMA_MODEL, "ml_api_base": ML_API_BASE}
-
+@app.get("/advice/sell")
+def sell_advice(region: str):
+    advice = get_sell_advice(region.lower())
+    if not advice:
+        raise HTTPException(
+            status_code=400,
+            detail="داتا غير كافية للجهة هاذي"
+        )
+    return advice
+@app.get("/stats/top_products")
+async def top_products():
+    top = await fetch_top_products_from_java()
+    return {"top_products": top}
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     text = latest_user_text(req)
 
-    # Detect language from the user's text (not from OCR)
+    # 1️⃣ Détecter la langue
     lang: Literal["fr", "ar", "en", "tn"]
     if req.langMode == "auto":
         lang = detect_language(text)
     else:
-        # tn uses Arabic output style for now
         lang = "ar" if req.langMode == "tn" else req.langMode  # type: ignore
+    supplier_msg = await handle_supplier_question(text)
+    if supplier_msg:
+        return ChatResponse(reply=supplier_msg, languageHint="fr" if lang=="fr" else "ar")
 
-    # ---- QUALITY / MARKETING MODE ----
+    # 2️⃣ Vérifier si c'est une question qualité
     if is_quality_question(text):
         system = build_system_prompt(lang)
-
-        # Use your FR knowledge base prompt builder; LLM will answer in user language.
         user_prompt = build_quality_prompt_fr(user_text=text)
-
         reply = await ollama_chat(system=system, user=user_prompt)
         language_hint: Optional[Literal["fr", "ar", "en", "tn"]] = "fr" if lang == "fr" else "en" if lang == "en" else "ar"
         return ChatResponse(reply=reply, languageHint=language_hint)
-    # ---- MARKET MODE (recommend annonces) ----
+
+    # 3️⃣ Vérifier si c'est une question marketplace / recommandation
     ctx_type = (req.context.get("type") if isinstance(req.context, dict) else None)
     if ctx_type and is_reco_intent(text):
         type_ = str(ctx_type).upper().strip()
-        budget = extract_price(text)  # نستعمل نفس extractor كـbudget إذا ذكر رقم
+        budget = extract_price(text)
 
         annonces = await fetch_annonces_by_type(type_)
 
-        # IMPORTANT: لازم اسم حقل fournisseur user id من Java response
-        # بدّل "userId" إذا عندك اسم آخر
         scored = []
         for a in annonces:
             uid = a.get("userId")
@@ -293,29 +312,34 @@ async def chat(req: ChatRequest):
                 "qtyOnHand": a.get("qtyOnHand"),
                 "qualiteScore": a.get("qualiteScore"),
                 "qualiteVerdict": a.get("qualiteVerdict"),
-                 "userId": uid,
+                "userId": uid,
                 "trustScore": trust.get("trustScore"),
                 "deliveredRate": trust.get("deliveredRate"),
                 "scoring": s
             })
- 
+
         scored.sort(key=lambda x: x["scoring"]["score"], reverse=True)
         top = scored[:3]
 
         system = build_market_system_prompt(lang)
         user_prompt = build_market_user_prompt(lang=lang, user_text=text, annonces_ranked=top)
-        reply = await ollama_chat(system=system, user=user_prompt)
 
+        # 4️⃣ Ajouter les top produits les plus demandés
+        supplier_msg = await handle_supplier_question(text)
+        if supplier_msg:
+            user_prompt += "\n\nInfos produits les plus demandés:\n" + supplier_msg
+
+        reply = await ollama_chat(system=system, user=user_prompt)
         language_hint: Optional[Literal["fr", "ar", "en", "tn"]] = "fr" if lang == "fr" else "en" if lang == "en" else "ar"
         return ChatResponse(reply=reply, languageHint=language_hint)
 
-    # ---- FORECAST MODE (existing behavior) ----
+    # 5️⃣ Mode forecast / prédiction
     region = extract_region(text) or "sfax"
     horizon = extract_horizon(text) or 7
     price = extract_price(text)
 
     if price is None:
-        # Ask a follow-up question in the user's language
+        # Demande le prix si absent
         if lang == "en":
             return ChatResponse(reply="What is the price today (DT/L)? Example: 11.8", languageHint="en")
         if lang == "fr":
@@ -326,10 +350,16 @@ async def chat(req: ChatRequest):
 
     system = build_system_prompt(lang)
     user_prompt = format_user_prompt(lang, region, horizon, price, ml)
-    reply = await ollama_chat(system=system, user=user_prompt)
 
+    # 6️⃣ Ajouter les top produits les plus demandés ici aussi
+    supplier_msg = await handle_supplier_question(text)
+    if supplier_msg:
+        user_prompt += "\n\nInfos produits les plus demandés:\n" + supplier_msg
+
+    reply = await ollama_chat(system=system, user=user_prompt)
     language_hint: Optional[Literal["fr", "ar", "en", "tn"]] = "fr" if lang == "fr" else "en" if lang == "en" else "ar"
     return ChatResponse(reply=reply, languageHint=language_hint)
+
 
 
 @app.post("/analyze_image", response_model=ImageAnalysisResponse)
@@ -647,3 +677,33 @@ def build_market_user_prompt(lang: str, user_text: str, annonces_ranked: list[di
       "Conseil final: Acheter maintenant / Demander infos / Éviter\n"
       "Réponds dans la langue de l'utilisateur."
     )
+PRODUCTS = ["huile d'olive", "dattes", "bananes", "pêches"]
+
+async def fetch_top_products_from_java(limit=5):
+    url = f"http://127.0.0.1:8080/api/commandes/top-products?limit={limit}"
+    async with httpx.AsyncClient(timeout=10) as client:
+        r = await client.get(url)
+        r.raise_for_status()
+        return r.json()
+
+def extract_product_keywords(text):
+    found = []
+    for prod in PRODUCTS:
+        if prod.lower() in text.lower():
+            found.append(prod)
+    return found
+
+async def handle_supplier_question(user_message):
+    # Detect if the question is about most demanded products
+    keywords = ["demande", "demandé", "plus demandé", "plus demandés", "top produits", "produits populaires", "most demanded", "top products", "popular products","akther heja matlouba"]
+    if any(k in user_message.lower() for k in keywords):
+        try:
+            top_products = await fetch_top_products_from_java()
+            if top_products:
+                produits_list = ", ".join([p.get('produitType', '') for p in top_products])
+                return f"Actuellement, les produits les plus demandés sont : {produits_list}."
+            else:
+                return "Aucune donnée de demande produit n'est disponible actuellement."
+        except Exception:
+            return "Impossible de récupérer les statistiques de demande pour le moment."
+        

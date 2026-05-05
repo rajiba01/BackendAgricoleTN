@@ -13,6 +13,8 @@ import tn.economic.system.Controller.LoginController;
 import tn.economic.system.Controller.ProduitController;
 import tn.economic.system.Controller.UserController;
 import tn.economic.system.Controller.CommandeController;
+
+import org.glassfish.jersey.jackson.JacksonFeature;
 @ApplicationPath("/api")
 public class RestApplication extends Application {
 
@@ -30,6 +32,9 @@ public class RestApplication extends Application {
                classes.add(CommandeController.class);
  classes.add(AnnoncesPublicController.class);
  classes.add(FournisseurMetricsController.class);
+
+        // JSON support (Request/Response entity providers)
+        classes.add(JacksonFeature.class);
         return classes;
     }
 }
