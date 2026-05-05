@@ -19,8 +19,22 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        // Serveur Jetty
-        Server server = new Server(8080);
+        // read port from env (Render / container platforms provide PORT)
+        String portEnv = System.getenv("PORT");
+        int port = 8085;
+        if (portEnv != null && !portEnv.isBlank()) {
+            try {
+                port = Integer.parseInt(portEnv);
+            } catch (NumberFormatException e) {
+         
+            }
+        }
+
+        org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server();
+        org.eclipse.jetty.server.ServerConnector connector = new org.eclipse.jetty.server.ServerConnector(server);
+        connector.setHost("0.0.0.0");
+        connector.setPort(port);
+        server.addConnector(connector);
 
         HandlerList handlers = new HandlerList();
 
@@ -60,11 +74,12 @@ public class Main {
         handlers.addHandler(apiContext);
         server.setHandler(handlers);
 
-        server.start();
-
-        System.out.println("Server started at http://localhost:8080");
-        System.out.println("POST User API -> http://localhost:8080/api/users");
-
-        server.join();
+        try {
+            server.start();
+            server.join();
+        } catch (java.net.BindException be) {
+            System.err.println("Port " + port + " is unavailable: " + be.getMessage());
+            System.exit(1);
+        }
     }
 }

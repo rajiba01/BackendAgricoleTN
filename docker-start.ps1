@@ -36,12 +36,12 @@ echo ""
 
 # Check Java API
 try {
-    $response = Invoke-WebRequest -Uri "http://localhost:8080/api/annonces/by-type?type=HUILE" -UseBasicParsing -ErrorAction Stop
+    $response = Invoke-WebRequest -Uri "http://localhost:8085/api/annonces/by-type?type=HUILE" -UseBasicParsing -ErrorAction Stop
     if ($response.StatusCode -eq 200) {
-        Write-Host "✓ Java API (port 8080): RUNNING" -ForegroundColor Green
+        Write-Host "✓ Java API (port 8085): RUNNING" -ForegroundColor Green
     }
 } catch {
-    Write-Host "✗ Java API (port 8080): FAILED - $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "✗ Java API (port 8085): FAILED - $($_.Exception.Message)" -ForegroundColor Red
 }
 
 # Check Chat API
@@ -60,7 +60,7 @@ echo "Docker Environment Ready!"
 echo "========================================="
 echo ""
 echo "Services available at:"
-echo "  - Java API:     http://localhost:8080"
+echo "  - Java API:     http://localhost:8085"
 echo "  - Chat API:     http://localhost:8010"
 echo "  - Chat API Docs: http://localhost:8010/docs"
 echo ""
